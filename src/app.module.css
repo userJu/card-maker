@@ -1,0 +1,17 @@
+@value makerGrey from './common/colors.css';
+
+* {
+  box-sizing: border-box;
+  /* 웬만한 문제는 box-sizing의 문제 이걸 borderbox로하면 잘 해결된다 */
+}
+body {
+  margin: 0;
+}
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: makerGrey;
+}

@@ -1,15 +1,16 @@
 import React from "react";
+import styles from "./header.module.css";
 
-const Header = ({ userLogin, onLogoutClick }) => {
+const Header = ({ onLogout }) => {
   return (
-    <header>
-      <img src="images/logo.png" alt="" />
-      <h1>Business Card Maker</h1>
-      {userLogin ? (
-        <button onClick={onLogoutClick}>Logout</button>
-      ) : (
-        <h1>로그인안함</h1>
+    <header className={styles.header}>
+      {onLogout && (
+        <button className={styles.logout} onClick={onLogout}>
+          Logout
+        </button>
       )}
+      <img className={styles.logo} src="images/logo.png" alt="" />
+      <h1 className={styles.title}>Business Card Maker</h1>
     </header>
   );
 };

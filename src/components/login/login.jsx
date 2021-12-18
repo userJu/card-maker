@@ -1,49 +1,38 @@
-import React from "react";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-} from "firebase/auth";
-import firebaseApp from "../../service/fireBase";
-const Login = (props) => {
-  const onClick = (e) => {
-    if (e.target.innerHTML === "Google") {
-      const provider = new GoogleAuthProvider();
-      const auth = getAuth();
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (e.target.innerHTML === "Github") {
-      const provider = new GithubAuthProvider();
+import React, { useState } from "react";
+import { firebaseApp } from "../../service/fireBase";
+import Footer from "../footer/footer";
+import Header from "../header/header";
+import styles from "./login.module.css";
 
-      const auth = getAuth();
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const credential = GithubAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          const email = error.email;
-          const credential = GithubAuthProvider.credentialFromError(error);
-        });
-    }
+const Login = ({ authService }) => {
+  const [userLogin, setUserLogin] = useState(false);
+
+  const onLogin = (e) => {
+    authService
+      .login(e.currentTarget.textContent) //
+      .then(console.log);
   };
+
   return (
-    <>
-      <h1>Login</h1>
-      <button onClick={onClick}>Google</button>
-      <button onClick={onClick}>Github</button>
-    </>
+    <section className={styles.login}>
+      <Header />
+      <section>
+        <h1>Login</h1>
+        <ul className={styles.list}>
+          <li className={styles.item}>
+            <button className={styles.button} onClick={onLogin}>
+              Google
+            </button>
+          </li>
+          <li className={styles.item}>
+            <button className={styles.button} onClick={onLogin}>
+              Github
+            </button>
+          </li>
+        </ul>
+      </section>
+      <Footer />
+    </section>
   );
 };
 
