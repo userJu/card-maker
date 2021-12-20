@@ -12,11 +12,8 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import styles from "./login.module.css";
 import App from "../../app";
-import AuthService from "../../service/auth_service";
 
-const Login = ({ AuthService }) => {
-  const [userExist, setUserExist] = useState("false");
-  console.log(userExist);
+const Login = ({ authService }) => {
   const navigate = useNavigate();
   const goToMaker = (userId) => {
     navigate("/maker", {
@@ -24,37 +21,24 @@ const Login = ({ AuthService }) => {
       state: { id: userId },
     });
   };
-  console.log(AuthService);
 
   const onLogin = (e) => {
-    // const auth = getAuth();
-    // const providerName = e.currentTarget.textContent;
-    // if (providerName === "Google") {
-    //   const provider = new GoogleAuthProvider();
-    //   signInWithPopup(auth, provider);
-    // } else if (providerName === "Github") {
-    //   const provider = new GithubAuthProvider();
-    //   signInWithPopup(auth, provider);
-    // }
-    AuthService;
+    authService //
+      .login(e.currentTarget.innerText)
+      .then((data) => goToMaker(data.user.uid));
+    console.dir(e.currentTarget.innerText);
   };
 
   useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        console.log(uid);
-        setUserExist(true);
-      } else {
-        setUserExist(false);
-      }
+    authService.onAuthChange((user) => {
+      user && goToMaker(user.uid);
+      user && console.log(user.uid);
     });
   }, []);
 
   return (
     <section className={styles.login}>
-      <Header userExist={userExist} />
+      <Header />
       <section>
         <h1>Login</h1>
         <ul className={styles.list}>

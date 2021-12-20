@@ -1,14 +1,11 @@
 import React from "react";
 import styles from "./header.module.css";
 
-const Header = ({ userExist }) => {
-  const userLogout = () => {
-    console.log("userLogout");
-  };
+const Header = ({ onLogout }) => {
   return (
     <header className={styles.header}>
-      {userExist && (
-        <button className={styles.logout} onClick={userLogout}>
+      {onLogout && (
+        <button onClick={onLogout} className={styles.logout}>
           Logout
         </button>
       )}
